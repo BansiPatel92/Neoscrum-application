@@ -186,27 +186,24 @@
   </div>
 </template>
 <script>
-import axios from "axios";
+// import axios from "axios";
+import userService from '../services/user.service.js'
 export default {
   name: "Dashboard",
+   data() {
+    return {
+      userservice: new userService(),
+    };
+  },
    methods: {
-    async GetDashboardData() {
-    let currentuser = await JSON.parse(localStorage.getItem("currentuser"));
-    let token = currentuser.token;
-      let config = {
-        headers: {
-          "Authorization": token
-        }
-      };
-      axios
-        .get("http://180.149.241.208:3000/feedback", config)
-        .then(response => {
-            this.FeedbackData = response.data;
-          console.log("response>>", this.FeedbackData);
+    GetDashboardData() {
+    this.userservice.getDashboardData('/feedback').then(response => {
+      console.log('Dashboard',response);
+          //  this.FeedbackData = response.data;
         })
         .catch(e => {
           console.log(e);
-          this.errors.push(e);
+          // this.errors.push(e);
         });
     }
   },

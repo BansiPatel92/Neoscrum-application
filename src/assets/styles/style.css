@@ -35,6 +35,9 @@ box-shadow: 2% 2% 2%;
 .list {
     text-align: right
 }
+.nav-item{
+    margin-right: 10px;
+}
 #collapsibleNavbar {
     display: flex;
     justify-content:flex-end;

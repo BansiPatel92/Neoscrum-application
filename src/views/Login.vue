@@ -45,25 +45,27 @@
             @click="$router.push('register')"
             class="btn btn-secondary"
           >Registration</button>
-          <!-- <button id="register" class="btn btn-primary">Register</button> -->
-
-          <!-- <button type="submit" class="btn btn-primary">Login</button>
-          <a href="admin.html">Registration</a>-->
+           <vue-instant-loading-spinner ref="Spinner"></vue-instant-loading-spinner>
         </fieldset>
       </form>
     </div>
   </div>
 </template>
 <script>
-import axios from "axios";
 import { required } from 'vuelidate/lib/validators'
+import userService from '../services/user.service.js'
+import VueInstantLoadingSpinner from 'vue-instant-loading-spinner/src/components/VueInstantLoadingSpinner.vue'
 export default {
   name: "Login",
   data() {
     return {
       email: "",
-      password: ""
+      password: "",
+      userservice: new userService(),
     };
+  },
+  components: {
+    VueInstantLoadingSpinner
   },
   validations: {
       email:{
@@ -75,22 +77,19 @@ export default {
   },
   methods: {
     login() {
-      axios
-        .post(`http://180.149.241.208:3000/login`, {
-          user_email: this.email,
-          user_pass: this.password
-        })
-        .then(response => {
-          console.log("response>>", response.data);
-          this.$toasted.show(response.data.message).goAway(1500);
-          const parsed = JSON.stringify(response.data);
-          localStorage.setItem("currentuser", parsed);
-          this.$router.push('/')
+        this.$refs.Spinner.show();
+       this.userservice.Login('/login',{  user_email: this.email,
+          user_pass: this.password}).then(response => {
+           this.$refs.Spinner.hide();
+           this.$toasted.show(response.data.message).goAway(1500);
+            localStorage.setItem("token", response.data.token);
+            localStorage.setItem("user_image", response.data.user_image);
+            this.$router.push('/')
         })
         .catch(e => {
+           this.$refs.Spinner.hide();
           console.log(e);
           this.errors.push(e);
-          this.$toasted.errors("Error", this.errors);
         });
     }
   }

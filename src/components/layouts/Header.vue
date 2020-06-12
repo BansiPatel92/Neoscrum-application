@@ -13,6 +13,7 @@
                 <li class="nav-item">
                     <button @click.prevent="$router.push('feedback')" class="btn btn-outline-success my-2 my-sm-0">Add Feedback</button>
                 </li>
+                <span></span>
                 <li class="nav-item">
                     <button class="btn btn-outline-danger my-2 my-sm-0" @click.prevent="logoutuser">Logout</button>
                 </li>

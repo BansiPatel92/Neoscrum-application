@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../views/Login.vue'
 import Dashboard from '../views/Dashboard.vue'
-import AddFeedback from '../views/AddFeedback.vue'
+import FeedbackCard from '../views/FeedbackCard.vue'
 Vue.use(VueRouter)
 const routes = [
     {
@@ -27,13 +27,12 @@ const routes = [
         {
           name:'Feedback',
           path:'/feedback',
-          component:AddFeedback
+          component:FeedbackCard
         }
       ],
       beforeEnter: async (to, from, next) => {
-        let currentuser = await JSON.parse(localStorage.getItem("currentuser"));
-        console.log('currentuser >>',currentuser);
-        if (currentuser && currentuser != null) {
+        let token = localStorage.getItem("token");
+        if (token && token != null) {
         next();
         } else {
         next("/login");

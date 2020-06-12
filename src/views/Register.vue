@@ -55,6 +55,7 @@
           <button @click="$router.push('login')" class="btn btn-secondary">Login</button>
           &nbsp;
           <button id="register" type="submit" class="btn btn-primary">Register</button>
+           <vue-instant-loading-spinner ref="Spinner"></vue-instant-loading-spinner>
         </fieldset>
       </form>
     </div>
@@ -62,20 +63,22 @@
 </template>
 
 <script>
-// @ is an alias to /src
-// import HelloWorld from '@/components/HelloWorld.vue'
-import axios from "axios";
 import { required } from 'vuelidate/lib/validators'
+import userService from '../services/user.service.js'
+import { environment } from '../../environments/environment.ts';
+import VueInstantLoadingSpinner from 'vue-instant-loading-spinner/src/components/VueInstantLoadingSpinner.vue'
 export default {
   name: "Register",
   components: {
-    // HelloWorld
+    VueInstantLoadingSpinner
   },
   data() {
     return {
       username: "",
       email: "",
-      profile: ""
+      profile: "",
+      userservice: new userService(),
+      baseUrl:""
     };
   },
   validations: {
@@ -99,28 +102,28 @@ export default {
       };
     },
     register() {
+       this.$refs.Spinner.show();
       let data = new FormData();
       data.append("user_name", this.username);
       data.append("user_email", this.email);
-      // data.append("name", "my-file");
-      data.append("profile_image", this.profile);
+      data.append("profile_image", this.baseUrl+'/'+this.profile);
 
-      let config = {
-        header: {
-          "Content-Type": "multipart/form-data"
-        }
-      };
-      axios
-        .post("http://180.149.241.208:3000/registration", data, config)
-        .then(response => {
-          console.log("response>>", response);
+    
+
+      this.userservice.Register('/registration',data)
+      .then(response => {
+        console.log('Register',response);
+         this.$refs.Spinner.hide();
         })
         .catch(e => {
+           this.$refs.Spinner.hide();
           console.log(e);
           this.errors.push(e);
         });
     }
-    // },
+  },
+  mounted(){
+this.baseUrl = environment.apiUrl;
   }
 };
 </script>
