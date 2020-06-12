@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Login from '../views/Login.vue'
 import Dashboard from '../views/Dashboard.vue'
 import FeedbackCard from '../views/FeedbackCard.vue'
+import NotFound from '../components/NotFound.vue'
 Vue.use(VueRouter)
 const routes = [
     {
@@ -38,6 +39,9 @@ const routes = [
         next("/login");
         }
     }
+    },{
+      path:'*',
+      component:NotFound
     }
   ];
 

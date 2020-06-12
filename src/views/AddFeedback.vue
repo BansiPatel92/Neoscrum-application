@@ -60,6 +60,7 @@ export default {
         .addFeedback("/addfeedback", obj)
         .then(response => {
           console.log('Add feedback',response);
+          this.$toasted.show(response.data.data.message).goAway(1500);
            this.$refs.Spinner.hide();
         })
         .catch(e => {
@@ -72,8 +73,6 @@ export default {
   },
   mounted: function() {
     this.baseUrl = environment.apiUrl;
-    // this.GetReceiverData();
-    // console.log(this.$refs);
   }
 };
 </script>

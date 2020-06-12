@@ -23,46 +23,47 @@ export default {
   data() {
     return {
       FeedbackData: [
-        {
-          flags: false,
-          receiver_id: 286,
-          image_path: "2019-04-11T05-45-38.907Z10.jpeg",
-          receiver_name: "CD",
-          sender_id: 306
-        },
-        {
-          flags: false,
-          receiver_id: 229,
-          image_path: "2019-04-11T05-45-38.907Z10.jpeg",
-          receiver_name: "Sagar Shinde",
-          sender_id: 306
-        },
-        {
-          flags: false,
-          receiver_id: 293,
-          image_path: "2019-04-11T05-45-38.907Z10.jpeg",
-          receiver_name: "Bansi Patel",
-          sender_id: 306
-        }
+        // {
+        //   flags: false,
+        //   receiver_id: 286,
+        //   image_path: "2019-04-11T05-45-38.907Z10.jpeg",
+        //   receiver_name: "CD",
+        //   sender_id: 306
+        // },
+        // {
+        //   flags: false,
+        //   receiver_id: 229,
+        //   image_path: "2019-04-11T05-45-38.907Z10.jpeg",
+        //   receiver_name: "Sagar Shinde",
+        //   sender_id: 306
+        // },
+        // {
+        //   flags: false,
+        //   receiver_id: 293,
+        //   image_path: "2019-04-11T05-45-38.907Z10.jpeg",
+        //   receiver_name: "Bansi Patel",
+        //   sender_id: 306
+        // }
       ],
-      userservice: new userService(),
-      // baseUrl: ""
+      userservice: new userService()
     };
   },
   methods: {
-    async GetReceiverData() {
+    GetReceiverData() {
+      alert(0);
       this.userservice.getDashboardData('/dashboard')
       .then(response => {
-        console.log('Feedback card',response);
+        console.log('Feedback card',response.data.data);
+        this.FeedbackData = response.data.data;
         })
         .catch(e => {
           console.log(e);
           this.errors.push(e);
         });
     },
-    mounted: function() {
-      this.GetReceiverData();
-    }
-  }
+  },
+  mounted: function() {
+    this.GetReceiverData();
+  } 
 };
 </script>

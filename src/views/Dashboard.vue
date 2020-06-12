@@ -198,10 +198,12 @@ export default {
    methods: {
     GetDashboardData() {
     this.userservice.getDashboardData('/feedback').then(response => {
-      console.log('Dashboard',response);
+      console.log('Dashboard',response.data.message);
+       this.$toasted.show(response.data.message).goAway(1500);
           //  this.FeedbackData = response.data;
         })
         .catch(e => {
+           this.$toasted.show(e.message).goAway(1500);
           console.log(e);
           // this.errors.push(e);
         });
